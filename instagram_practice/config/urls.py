@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^post/(?P<post_pk>\d+)/comment/create/$', post_views.comment_create, name='comment_create'),
 
     url(r'^member/signup/$', member_views.signup, name='signup'),
+    url(r'^member/login/$', member_views.login, name='login')
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
