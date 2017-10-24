@@ -5,11 +5,11 @@
 <div id="post-{{ post.pk }}">
     <a href="#last">Last로 갑시다.</a>
     {% for post in posts %}
-        <a href="{% url 'post_detail' post_pk=post.pk %}">
+        <a href="{% url 'post:post_detail' post_pk=post.pk %}">
             <img src="{{ post.photo.url }}" alt="">
         </a>
 
-        <form action="{% url 'comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+        <form action="{% url 'post:comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
             {% csrf_token %}
             {{ comment_form }}
             <button class="btn btn-primary btn-block">댓글달기</button>
