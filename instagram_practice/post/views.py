@@ -30,10 +30,15 @@ def post_detail(request, post_pk):
 
 
 def post_create(request):
+    if not request.user.is_authenticated:
+        return redirect('member:login')
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = Post.objects.create(photo=form.cleaned_data['photo'])
+            post = Post.objects.create(
+                author=request.user,
+                photo=form.cleaned_data['photo']
+            )
             return redirect('post:post_list')
     else:
         form = PostForm()
