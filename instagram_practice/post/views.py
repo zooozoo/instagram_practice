@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import PostForm, CommentForm
@@ -47,17 +47,28 @@ def post_create(request):
     }
     return render(request, 'post/post_create.html', context)
 
+def post_delete(request, post_pk):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, pk=post_pk)
+        if post.author == request.user:
+            post.delete()
+            return redirect('post:post_list')
+        else:
+            raise PermissionDenied('작성자가 아닙니다.')
 
 def comment_create(request, post_pk):
+    if not request.user.is_authenticated:
+        return redirect('member:login')
     post = get_object_or_404(Post, pk=post_pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             PostComment.objects.create(
+                author=request.user,
                 post=post,
                 content=form.cleaned_data['content'],
             )
-            next = request.GET.get('next')
+            next = request.GET.get('next', '').strip()
             if next:
                 return redirect(next)
             return redirect('post:post_detail', post_pk=post_pk)

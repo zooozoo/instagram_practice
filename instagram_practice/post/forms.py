@@ -6,10 +6,20 @@ __all__=(
 )
 
 class PostForm(forms.Form):
-    photo = forms.ImageField()
-    # text = forms.CharField(max_length=5)
+    photo = forms.ImageField(
+        required=True,
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
 
 class CommentForm(forms.Form):
     content = forms.CharField(
-        widget=forms.Textarea,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
     )

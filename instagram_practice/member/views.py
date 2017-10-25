@@ -1,5 +1,6 @@
 from django.contrib.auth import (
     get_user_model,
+    login as django_login,
     logout as django_logout,
 )
 from django.http import HttpResponse
@@ -32,7 +33,8 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.signup()
-            return HttpResponse(f'{user.username}, {user.password}')
+            django_login(request, user)
+            return redirect('post:post_list')
     else:
         form = SignupForm()
     context = {
