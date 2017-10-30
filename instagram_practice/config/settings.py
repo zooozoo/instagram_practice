@@ -23,6 +23,15 @@ config_secret_common_str = f.read()
 f.close()
 config_secret_common = json.loads(config_secret_common_str)
 
+AWS_ACCESS_KEY_ID = config_secret_common['AWS']['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = config_secret_common['AWS']['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = config_secret_common['AWS']['AWS_STORAGE_BUCKET_NAME']
+STATICFILES_LOCATION = 'static'
+MEDIAFILES_LOCATION = 'media'
+
+DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
+STATICFILES_STORAGE = 'config.storages.StaticStorage'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -32,6 +41,7 @@ STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
+
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -71,6 +81,7 @@ INSTALLED_APPS = [
 
     'post',
     'member',
+    'storages'
 ]
 
 MIDDLEWARE = [

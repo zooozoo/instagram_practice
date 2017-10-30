@@ -18,7 +18,8 @@ class User(AbstractUser):
     age = models.IntegerField('나이')
     like_posts = models.ManyToManyField(
         'post.Post',
-        verbose_name='좋아요 누른 포스트목록'
+        verbose_name='좋아요 누른 포스트목록',
+        blank=True,
     )
 
     objects = UserManager()
