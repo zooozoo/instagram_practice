@@ -30,9 +30,9 @@ def logout(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.signup()
+            user = form.save()
             django_login(request, user)
             return redirect('post:post_list')
     else:
